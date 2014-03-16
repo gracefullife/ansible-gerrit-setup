@@ -11,5 +11,5 @@
     - ant
     - postgresql
   - name: gerritユーザーを追加
-    user: name=gerrit system=yes state=present move_home=yes home=/var/lib/gerrit
+    user: name={{gerrit_user}} system=yes state=present move_home=yes home=/var/lib/{{gerrit_user}}
 

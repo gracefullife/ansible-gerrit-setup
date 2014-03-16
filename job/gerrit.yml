@@ -11,16 +11,16 @@
       ignore_errors: True
       register: gerrit_war_notexists
     - name: download gerrit binaries
-      command: chdir=~/ 
+      command: chdir={{gerrit_home}}
          wget  -O {{gerrit_war}}
                {{gerrit_url}}
       when: gerrit_war_notexists.rc == 1
     - name: batch initialize gerrit repositories
-      command: chdir=~/ 
+      command: chdir={{gerrit_home}}
          java -jar {{gerrit_war}} init -d repositories
     - name: config files
-      command: chdir=~/repositories
-        find /var/lib/gerrit/repositories/etc -type f 
+      command: chdir={{gerrit_home}}/repositories
+        find {{gerrit_home}}/{{gerrit_user}}/repositories/etc -type f 
       register: configfiles
     - name: backup config
       fetch: src={{item}} dest=../backup/
