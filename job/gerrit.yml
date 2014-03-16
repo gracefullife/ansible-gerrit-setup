@@ -1,0 +1,28 @@
+---
+- name: install gerrit
+  hosts: gerrit_install_targets
+  sudo: True
+  sudo_user: gerrit
+  gather_facts: no
+  tasks:
+    - name: check gerrit_war exists
+      command: chdir=~/
+         test -f {{gerrit_war}}
+      ignore_errors: True
+      register: gerrit_war_notexists
+    - name: download gerrit binaries
+      command: chdir=~/ 
+         wget  -O {{gerrit_war}}
+               {{gerrit_url}}
+      when: gerrit_war_notexists.rc == 1
+    - name: batch initialize gerrit repositories
+      command: chdir=~/ 
+         java -jar {{gerrit_war}} init -d repositories
+    - name: config files
+      command: chdir=~/repositories
+        find /var/lib/gerrit/repositories/etc -type f 
+      register: configfiles
+    - name: backup config
+      fetch: src={{item}} dest=../backup/
+      with_items: ${configfiles.stdout_lines}
+          

@@ -1,0 +1,15 @@
+---
+- name: setup system 
+  hosts: gerrit_install_targets
+  sudo: yes
+  gather_facts: no
+  tasks:
+  - name: install pkg
+    yum: pkg={{item}} state=installed
+    with_items:
+    - git-core
+    - ant
+    - postgresql
+  - name: gerritユーザーを追加
+    user: name=gerrit system=yes state=present move_home=yes home=/var/lib/gerrit
+

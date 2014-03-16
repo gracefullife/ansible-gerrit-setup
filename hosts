@@ -1,0 +1,11 @@
+[gerrit_install_targets]
+localhost:2222
+
+
+[gerrit_install_targets:vars]
+gerrit_url=http://gerrit-releases.storage.googleapis.com/gerrit-2.8.3.war
+gerrit_war=gerrit-2.8.3.war       
+gerrit_username=gerrit
+
+
+

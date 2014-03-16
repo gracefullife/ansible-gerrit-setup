@@ -1,0 +1,11 @@
+---
+- name: gerrit install from source
+  hosts: gerrit_install_targets
+  sudo: yes
+  gather_facts: no
+  vars:
+    gerrit_bin: 
+  
+- include: job/adduser.yml
+- include: job/yum.yml
+- include: job/gerrit.yml
